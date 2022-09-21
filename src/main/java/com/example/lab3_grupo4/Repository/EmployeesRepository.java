@@ -2,6 +2,7 @@ package com.example.lab3_grupo4.Repository;
 
 import com.example.lab3_grupo4.Entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,14 +17,10 @@ public interface EmployeesRepository extends JpaRepository<Employee, Integer> {
     @Query(value="SELECT * FROM employees group by manager_id",nativeQuery = true)
     List<Employee> buscaJefes();
 
-
-    @Query(value="select concat(e.first_name, ' ', e.last_name), j.job_title, dep.department_name, job.start_date, job.end_date from employees as e inner join jobs as j on j.job_id= e.job_id\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\tinner join job_history as job on j.job_id = job.job_id\n" +
-            "                            inner join departments as dep on dep.department_id=job.department_id\n" +
-            "                            inner join employees as emp on emp.manager_id=dep.manager_id order by job.start_date desc;")
-    List<Employee> buscaJefes1();
-
-
+    @Modifying
+    @Transactional
+    @Query(value="update employees set password=SHA2(?1,256) where employee_id=?2 ",nativeQuery = true)
+    void GuardarContrasena(String contrasena,int id);
 
 
     @Transactional
