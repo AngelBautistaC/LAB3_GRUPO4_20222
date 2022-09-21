@@ -40,21 +40,21 @@
           <div class="mb-3">
             <label for="job" class="form-label">Puesto</label>
             <select name="job" class="form-select" aria-label="Default select example" id="job">
-              <option>Puesto</option>
+              <option th:value="${puesto.getId()}" th:each="puesto: ${listaJobs}" th:text="${puesto.getJobTitle()}">Puesto</option>
             </select>
           </div>
 
           <div class="mb-3">
             <label for="manager" class="form-label">Jefe</label>
             <select name="manager" class="form-select" aria-label="Default select example" id="manager">
-              <option>Jefe</option>
+              <option th:each="jefe : ${listaJefes}" th:text="${jefe.getLastName()}" th:value="${jefe.getId()}">Jefe</option>
             </select>
           </div>
 
           <div class="mb-3">
             <label for="department" class="form-label">Departamento</label>
             <select name="department" id="department">
-              <option>Departamento</option>
+              <option th:each="depart : ${listaDepart}" th:text="${depart.getDepartmentName()}" th:value="${depart.getId()}">Departamento</option>
             </select>
           </div>
 
