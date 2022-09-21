@@ -17,6 +17,13 @@ public interface EmployeesRepository extends JpaRepository<Employee, Integer> {
     List<Employee> buscaJefes();
 
 
+    @Query(value="select concat(e.first_name, ' ', e.last_name), j.job_title, dep.department_name, job.start_date, job.end_date from employees as e inner join jobs as j on j.job_id= e.job_id\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\tinner join job_history as job on j.job_id = job.job_id\n" +
+            "                            inner join departments as dep on dep.department_id=job.department_id\n" +
+            "                            inner join employees as emp on emp.manager_id=dep.manager_id order by job.start_date desc;")
+    List<Employee> buscaJefes();
+
+
 
 
 
