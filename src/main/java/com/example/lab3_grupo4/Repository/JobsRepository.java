@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JobsRepository extends JpaRepository<Job, Integer> {
+public interface JobsRepository extends JpaRepository<Job, String> {
 
     @Query(value="select job_title, j.max_salary, j.min_salary, emp.salary, truncate(avg(salary),0) from employees as emp inner join jobs as j on emp.job_id= j.job_id group by job_title; ",nativeQuery = true)
     List<Job> sueldos();

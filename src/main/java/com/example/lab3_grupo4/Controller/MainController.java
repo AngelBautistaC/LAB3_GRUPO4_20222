@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,18 +42,34 @@ public class MainController {
 
 
 
-    @GetMapping("nuevo")
-    public String newUser(Model model){
+    @GetMapping(value={"/nuevo"})
+    public String nuevoEmployee(Model model){
         model.addAttribute("listaJefes",employeesRepository.buscaJefes());
-        model.addAttribute("listaDepart",departmentsRepository.findAll());
         model.addAttribute("listaJobs",jobsRepository.findAll());
+        model.addAttribute("listaDepartment",departmentsRepository.findAll());
 
-        return "newuser";
+        return "employee/newuser";
     }
 
-    @PostMapping("savenew")
-    public String saveUser(Employee employee){
+    @PostMapping(value = {"/savenew"})
+    public String guardarEmployee(Employee employee, RedirectAttributes attr){
+
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println("*/*/**//**/*/*/**/*/*/**/*/*/**/*/**/*");
+        System.out.println(employee.getJob());
+        employee.setHireDate(Instant.now());
+        System.out.println(Instant.now());
+        System.out.println("*/*/**//**/*/*/**/*/*/**/*/*/**/*/**/*");
+
         employeesRepository.save(employee);
+        employeesRepository.GuardarContrasena(employee.getPassword(),employee.getId());
+        if(employee.getId()!=0){
+            attr.addFlashAttribute("guardado","El empleado se ha editado exitosamente");
+        }else{
+            attr.addFlashAttribute("guardado","El empleado se ha creado exitosamente");
+        }
         return "redirect:/empleado";
     }
 
@@ -60,7 +79,6 @@ public class MainController {
     public String listaEmpleado(Model model){
 
         model.addAttribute("listaEmpleados",employeesRepository.findAll());
-
         return "employee/lista";
 
     }
@@ -73,20 +91,7 @@ public class MainController {
         return "employee/lista";
     }
 
-    @GetMapping("/edit")
-    public String editarEmpleado(Model model, @RequestParam("id") int id) {
-        Optional<Employee> optional = employeesRepository.findById(id);
 
-        if (optional.isPresent()) {
-            model.addAttribute("employee", optional.get());
-            model.addAttribute("listaJefes", employeesRepository.buscaJefes1());
-
-            return "employee/editar";
-        } else {
-            return "redirect:/listaEmpleado";
-        }
-
-    }
 
     @GetMapping("/delete")
     public String borrarEmpleado(Model model,
