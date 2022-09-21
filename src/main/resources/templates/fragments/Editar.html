@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/navbar.html :: header( title = 'Empleado')"></head>
+    <body>
+        <div class="container">
+            <nav th:replace="fragments/navbar.html :: navbar( active = 'Empleado')"></nav>
+            <div class="row mb-4">
+                <div class="col-md-6 offset-md-3">
+                    <h2>Editar Producto</h2>
+                    <hr/>
+                    <form method="post" th:action="@{'/Empleado/save'}" th:object="${empleado}">
+                        <input th:field="*{id}" type="hidden"/>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Producto</label>
+                            <input th:field="*{Nombre}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('Nombre')?'is-invalid':'is-valid'}"/>
+                            <label class="form-label">Apellido</label>
+                            <input th:field="*{Apellido}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('Apellido')?'is-invalid':'is-valid'}"/>
+                            <label class="form-label">Contraseña</label>
+                            <input th:field="*{Contraseña}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('Contraseña')?'is-invalid':'is-valid'}"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Proveedor</label>
+                            <select class="form-select" name="supplier" th:field="${product.supplier}">
+                                <option th:each="supplier : ${listaProveedores}" th:value="${supplier.id}"
+                                        th:text="${supplier.companyname}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Puesto</label>
+                            <select class="form-select" name="category" th:field="${Puesto.category}">
+                                <option th:each="categoria : ${listaCategorias}" th:value="${categoria.id}"
+                                        th:text="${categoria.categoryname}"></option>
+                            </select>
+                        </div>
+                        <<label class="form-label">Sueldo</label>
+                        <input th:field="*{sueldo}" type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('sueldo')?'is-invalid':'is-valid'}"/>
+                        <div class="mb-3">
+                            <label class="form-label">Jefe</label>
+                            <select class="form-select" name="category" th:field="${Jefe.category}">
+                                <option th:each="categoria : ${listajefes}" th:value="${categoria.id}"
+                                        th:text="${categoria.categoryname}"></option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Departamento</label>
+                            <input th:field="*{Departamento}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('Departamento')?'is-invalid':'is-valid'}"/>
+                            <
+                        </div>
+                        <a th:href="@{'/product'}" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script th:replace="fragments/navbar.html :: footer-bootstrap"></script>
+    </body>
+</html>
