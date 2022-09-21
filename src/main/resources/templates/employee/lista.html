@@ -54,7 +54,7 @@
                 <td><a th:href="@{'/empleado/editar' +'?id='+${empleado.getId()}}" class="btn btn-primary"
                 >Editar</a>
                 </td>
-                <td><a class="btn btn-danger"
+                <td><a class="btn btn-danger" th:href="@{'/empleado/delete' +'?id='+${empleado.getId()}}"
                 >Borrar</a>
                 </td>
             </tr>

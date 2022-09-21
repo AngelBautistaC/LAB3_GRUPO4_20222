@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +18,10 @@ import java.util.Optional;
 @Controller
 public class MainController {
 
+
     @Autowired
     CountryRepository countryRepository;
+
     @Autowired
     DepartmentsRepository departmentsRepository;
     @Autowired
@@ -31,6 +34,9 @@ public class MainController {
     LocationsRepository locationsRepository;
     @Autowired
     RegionsRepository regionsRepository;
+
+
+
 
 
     @GetMapping("nuevo")
@@ -79,6 +85,20 @@ public class MainController {
         } else {
             return "redirect:/listaEmpleado";
         }
+
+    }
+
+    @GetMapping("/delete")
+    public String borrarEmpleado(Model model,
+                                      @RequestParam("id") int id,
+                                      RedirectAttributes attr) {
+
+        Optional<Employee> optProduct = employeesRepository.findById(id);
+
+        if (optProduct.isPresent()) {
+            employeesRepository.deleteById(id);
+        }
+        return "redirect:/empleado";
 
     }
 
