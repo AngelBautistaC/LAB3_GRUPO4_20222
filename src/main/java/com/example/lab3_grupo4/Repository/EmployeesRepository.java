@@ -17,6 +17,9 @@ public interface EmployeesRepository extends JpaRepository<Employee, Integer> {
     @Query(value="SELECT * FROM employees group by manager_id",nativeQuery = true)
     List<Employee> buscaJefes();
 
+
+
+
     @Modifying
     @Transactional
     @Query(value="update employees set password=SHA2(?1,256) where employee_id=?2 ",nativeQuery = true)
