@@ -11,14 +11,9 @@ import java.util.List;
 @Repository
 public interface JobsRepository extends JpaRepository<Job, Integer> {
 
-    @Query(value="select max_salary from jobs order by max_salary desc limit 1;\n",nativeQuery = true)
-    List<Employee> buscaJefes();
+    @Query(value="select job_title, j.max_salary, j.min_salary, emp.salary, truncate(avg(salary),0) from employees as emp inner join jobs as j on emp.job_id= j.job_id group by job_title; ",nativeQuery = true)
+    List<Job> sueldos();
 
-    @Query(value="select min_salary from jobs order by min_salary asc limit 1;\n",nativeQuery = true)
-    List<Employee> buscaJefes();
-
-    @Query(value="select department_id, truncate(avg(salary),0) as `Salario` from employees  group by department_id;\n",nativeQuery = true)
-    List<Employee> buscaJefes();
 
 
 
