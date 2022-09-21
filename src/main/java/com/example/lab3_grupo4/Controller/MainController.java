@@ -18,22 +18,20 @@ import java.util.Optional;
 public class MainController {
 
     @Autowired
-    EmployeesRepository employeesRepository;
-
+    CountryRepository countryRepository;
     @Autowired
     DepartmentsRepository departmentsRepository;
-
+    @Autowired
+    EmployeesRepository employeesRepository;
     @Autowired
     JobsRepository jobsRepository;
-
-    @Autowired
-    CountryRepository countryRepository;
     @Autowired
     Job_historyRepository job_historyRepository;
     @Autowired
     LocationsRepository locationsRepository;
     @Autowired
     RegionsRepository regionsRepository;
+
 
     @GetMapping("nuevo")
     public String newUser(Model model){

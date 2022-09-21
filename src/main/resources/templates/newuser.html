@@ -15,7 +15,7 @@
         <h2>Nuevo Ingreso</h2>
       </div>
       <div class="container-fluid">
-        <form method="POST" th:action="">
+        <form method="POST" th:action="@{/empleado/savenew}">
 
           <div class="mb-3">
             <label for="firstName" class="form-label">Nombre</label>
@@ -40,14 +40,14 @@
           <div class="mb-3">
             <label for="job" class="form-label">Puesto</label>
             <select name="job" class="form-select" aria-label="Default select example" id="job">
-              <option th:value="${puesto.getId()}" th:each="puesto: ${listaJobs}" th:text="${puesto.getJobTitle()}">Puesto</option>
+              <option th:each="puesto: ${listaJobs}" th:value="${puesto.id}" th:text="${puesto.jobTitle}">Puesto</option>
             </select>
           </div>
 
           <div class="mb-3">
             <label for="manager" class="form-label">Jefe</label>
             <select name="manager" class="form-select" aria-label="Default select example" id="manager">
-              <option th:each="jefe : ${listaJefes}" th:text="${jefe.getLastName()}" th:value="${jefe.getId()}">Jefe</option>
+              <option th:each="jefe : ${listaJefes}" th:text="${jefe.lastName}" th:value="${jefe.id}">Jefe</option>
             </select>
           </div>
 
