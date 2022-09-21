@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/navbar.html :: header( title = 'Historial')"></head>
+<body>
+<main>
+  <div class="container px-4 pb-5">
+    <nav th:replace="fragments/navbar.html :: navbar( active = 'Historial')"></nav>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Nombre Completo</th>
+        <th>Puesto</th>
+        <th>Departamento</th>
+        <th>Jefe </th>
+        <th>Fecha  Inicio</th>
+        <th>Fecha Fin</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="product, info : ${listaProductos}">
+        <td th:text="${info.index + 1}"></td>
+        <td th:text="${product.productname}"></td>
+        <td th:text="${product.category.categoryname}"></td>
+        <td th:text="${product.supplier.companyname}"></td>
+        <td th:text="${product.unitprice}"></td>
+        <td th:text="${product.unitsinstock}"></td>
+        <td th:text="${product.discontinued?'si':'no'}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script th:replace="fragments/navbar.html :: footer-bootstrap"></script>
+</body>
+</html>
