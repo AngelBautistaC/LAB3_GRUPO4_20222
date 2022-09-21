@@ -15,7 +15,7 @@ public class SueldoController {
     @GetMapping(value="/lista_sueldo")
     public String listaSueldos(Model model){
         model.addAttribute("listaSueldos", jobsRepository.sueldos());
-        return "";
+        return "fragments/Reporte-Sueldos";
     }
 
 }

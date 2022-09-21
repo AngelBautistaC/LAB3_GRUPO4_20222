@@ -16,9 +16,9 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="sueldo, info : ${ReporteSueldo}">
-        <td th:text="${sueldo.puesto}"></td>
-        <td th:text="${sueldo.salario.categoryname}"></td>
+      <tr th:each="sueldo, info : ${listaSueldos}">
+        <td th:text="${sueldo.getJobTitle()}"></td>
+        <td th:text="${sueldo..categoryname}"></td>
         <td th:text="${sueldo.salariominimo.companyname}"></td>
         <td th:text="${sueldo.unitprice}"></td>
         <td th:text="${product.unitsinstock}"></td>
