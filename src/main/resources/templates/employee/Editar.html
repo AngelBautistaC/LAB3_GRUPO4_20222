@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/navbar.html :: header( title = 'Empleado')"></head>
+    <body>
+        <div class="container">
+            <nav th:replace="fragments/navbar.html :: navbar( active = 'Empleado')"></nav>
+            <div class="row mb-4">
+                <div class="col-md-6 offset-md-3">
+                    <h2>Editar Producto</h2>
+                    <hr/>
+                    <form method="post" th:action="@{'/Empleado/savenew'}" th:object="${employee}">
+                        <input th:field="*{id}" type="hidden"/>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input th:field="*{firstName}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('firstName')?'is-invalid':'is-valid'}"/>
+                            <label class="form-label">Apellido</label>
+                            <input th:field="*{lastName}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('lastName')?'is-invalid':'is-valid'}"/>
+                            <label class="form-label">Contraseña</label>
+                            <input th:field="*{password}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('password')?'is-invalid':'is-valid'}"/>
+                            <label class="form-label">Departamento</label>
+                            <input th:field="*{department}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('department')?'is-invalid':'is-valid'}"/>
+                            <label class="form-label">Sueldo</label>
+                            <input th:field="*{salary}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('salary')?'is-invalid':'is-valid'}"/>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label class="form-label">Jefe</label>
+                            <select class="form-select" name="manager" id="manager">
+                                <option th:each="jefe : ${listaJefes}"
+                                        th:selected="${employee.manager != null and (jefe.id == employee.manager.id)}"
+                                        th:text="|${jefe.firstName} ${jefe.lastName==null?'':jefe.lastName}|"
+                                        th:value="${jefe.id}"></option>
+                            </select>
+                        </div>
+                        <a th:href="@{'/listaEmpleado'}" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script th:replace="fragments/navbar.html :: footer-bootstrap"></script>
+    </body>
+</html>
