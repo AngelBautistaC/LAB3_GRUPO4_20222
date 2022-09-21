@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping(value = {"empleado"})
 @Controller
@@ -24,6 +25,15 @@ public class MainController {
 
     @Autowired
     JobsRepository jobsRepository;
+
+    @Autowired
+    CountryRepository countryRepository;
+    @Autowired
+    Job_historyRepository job_historyRepository;
+    @Autowired
+    LocationsRepository locationsRepository;
+    @Autowired
+    RegionsRepository regionsRepository;
 
     @GetMapping("nuevo")
     public String newUser(Model model){
@@ -40,21 +50,6 @@ public class MainController {
         return "redirect:/empleado";
     }
 
-
-    @Autowired
-    CountryRepository countryRepository;
-    @Autowired
-    DepartmentsRepository departmentsRepository;
-    @Autowired
-    EmployeesRepository employeesRepository;
-    @Autowired
-    JobsRepository jobsRepository;
-    @Autowired
-    Job_historyRepository job_historyRepository;
-    @Autowired
-    LocationsRepository locationsRepository;
-    @Autowired
-    RegionsRepository regionsRepository;
 
 
     @GetMapping(value = {"/listaEmpleado",""})
@@ -74,6 +69,20 @@ public class MainController {
         return "employee/lista";
     }
 
+    @GetMapping("/edit")
+    public String editarEmpleado(Model model, @RequestParam("id") int id) {
+        Optional<Employee> optional = employeesRepository.findById(id);
+
+        if (optional.isPresent()) {
+            model.addAttribute("employee", optional.get());
+            model.addAttribute("listaJefes", employeesRepository.buscaJefes1());
+
+            return "employee/editar";
+        } else {
+            return "redirect:/listaEmpleado";
+        }
+
+    }
 
 
 

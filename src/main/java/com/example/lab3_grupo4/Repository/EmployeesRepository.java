@@ -21,8 +21,7 @@ public interface EmployeesRepository extends JpaRepository<Employee, Integer> {
             "\t\t\t\t\t\t\t\t\t\t\t\tinner join job_history as job on j.job_id = job.job_id\n" +
             "                            inner join departments as dep on dep.department_id=job.department_id\n" +
             "                            inner join employees as emp on emp.manager_id=dep.manager_id order by job.start_date desc;")
-    List<Employee> buscaJefes();
-
+    List<Employee> buscaJefes1();
 
 
 
