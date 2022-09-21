@@ -42,34 +42,18 @@ public class MainController {
 
 
 
-    @GetMapping(value={"/nuevo"})
-    public String nuevoEmployee(Model model){
+    @GetMapping("nuevo")
+    public String newUser(Model model){
         model.addAttribute("listaJefes",employeesRepository.buscaJefes());
+        model.addAttribute("listaDepart",departmentsRepository.findAll());
         model.addAttribute("listaJobs",jobsRepository.findAll());
-        model.addAttribute("listaDepartment",departmentsRepository.findAll());
 
-        return "employee/newuser";
+        return "newuser";
     }
 
-    @PostMapping(value = {"/savenew"})
-    public String guardarEmployee(Employee employee, RedirectAttributes attr){
-
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println("*/*/**//**/*/*/**/*/*/**/*/*/**/*/**/*");
-        System.out.println(employee.getJob());
-        employee.setHireDate(Instant.now());
-        System.out.println(Instant.now());
-        System.out.println("*/*/**//**/*/*/**/*/*/**/*/*/**/*/**/*");
-
+    @PostMapping("savenew")
+    public String saveUser(Employee employee){
         employeesRepository.save(employee);
-        employeesRepository.GuardarContrasena(employee.getPassword(),employee.getId());
-        if(employee.getId()!=0){
-            attr.addFlashAttribute("guardado","El empleado se ha editado exitosamente");
-        }else{
-            attr.addFlashAttribute("guardado","El empleado se ha creado exitosamente");
-        }
         return "redirect:/empleado";
     }
 
@@ -79,6 +63,7 @@ public class MainController {
     public String listaEmpleado(Model model){
 
         model.addAttribute("listaEmpleados",employeesRepository.findAll());
+
         return "employee/lista";
 
     }
@@ -91,7 +76,20 @@ public class MainController {
         return "employee/lista";
     }
 
+    @GetMapping("/edit")
+    public String editarEmpleado(Model model, @RequestParam("id") int id) {
+        Optional<Employee> optional = employeesRepository.findById(id);
 
+        if (optional.isPresent()) {
+            model.addAttribute("employee", optional.get());
+            model.addAttribute("listaJefes", employeesRepository.buscaJefes());
+
+            return "employee/Editar";
+        } else {
+            return "redirect:/listaEmpleado";
+        }
+
+    }
 
     @GetMapping("/delete")
     public String borrarEmpleado(Model model,
