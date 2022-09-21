@@ -86,7 +86,7 @@ public class MainController {
 
             return "employee/Editar";
         } else {
-            return "redirect:/listaEmpleado";
+            return "redirect:/empleado/listaEmpleado";
         }
 
     }
