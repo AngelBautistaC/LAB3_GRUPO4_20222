@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragmento :: header(titulo='Lista de Empleados')"></head>
+
+
+<body>
+
+<h1  th:replace="fragments/fragmento :: cabeceraLista(tabla = 'Lista de los Empleados')"></h1>
+
+
+<main>
+    <div class="container px-4 py-5">
+
+        <div class="d-flex mt-3 mb-4">
+            <!--        <a class="btn btn-primary" th:href="@{'/product/new'}">Nuevo Producto</a>-->
+            <a class="btn btn-primary" th:href="@{'/empleado/nuevo'}">Nuevo Empleado</a>
+            <a class="btn btn-secondary ms-auto" th:href="@{'/'}">Regresar</a>
+        </div>
+        <form class="input-group mb-lg-3" method="post" th:action="@{'/empleado/search'}">
+            <input type="text" class="form-control" placeholder="Texto a buscar" name="searchField">
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary ml-2 mr-2" type="submit">Buscar</button>
+                <a th:href="@{'/empleado'}" class="btn btn-outline-danger">Limpiar</a>
+            </div>
+        </form>
+
+        <div th:if="${guardado != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+        <div th:if="${listaEmpleados.size() == 0}" class="alert alert-success" role="alert">No hay resultados para la búsqueda</div>
+
+        <!--      <form method="post" th:action="@{/shipper/BuscarTransportistas}">-->
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Puesto</th>
+                <th>Departamento</th>
+                <th>Ciudad</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="empleado, info : ${listaEmpleados}">
+                <td th:text="${info.index + 1}"></td>
+                <td th:text="${empleado.getFirstName()}"></td>
+                <td th:text="${empleado.getLastName()}"></td>
+                <td th:text="${empleado.getJob().getJobTitle()}"></td>
+                <td th:text="${empleado.getDepartment().getDepartmentName()}"></td>
+                <td th:text="${empleado.getDepartment().getLocation().getCity()}"></td>
+
+                <td><a th:href="@{'/empleado/editar' +'?id='+${empleado.getId()}}" class="btn btn-primary"
+                >Editar</a>
+                </td>
+                <td><a class="btn btn-danger"
+                >Borrar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+
+</body>
+</html>
